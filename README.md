@@ -1,2 +1,2 @@
 # concentration
-See PLAN.md. Work in Progress.
+See [PLAN.md](https://github.com/KhalilKhunji/concentration/blob/main/PLAN.md). Work in Progress.
