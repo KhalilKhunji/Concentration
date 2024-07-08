@@ -29,7 +29,7 @@
 
 
 // Functions
-// 1. Init function - Start Button clicked - Randomize Cards (no overlap) - Memorization Timer Start.
+// 1. Init function - Start Button clicked - Randomize Cards (no overlap) - Memorization Timer Start. [init should end with render()]
 // 2. Primary Render - Renders randomized cards onto display - Renders Memorization Timer - Game and Phase Start/End Messages.
 // 3. Phase Transition - Triggered by Memorization Timer Elapsing - Starts Matching Timer.
 // 4. Flip Render - Flips over cards when Matching Phase begins - Renders Matching Timer - Reacts to Cards Clicked and Flips/Unflips.
