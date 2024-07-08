@@ -39,21 +39,23 @@ const messageEl = document.querySelector("message-box");
 
 // Functions
 // 2. Primary Render - Renders randomized cards onto display - Renders Memorization Timer - Game and Phase Start/End Messages.
-const renderDisplay = (cardArray) => {
-    for(let i = 0; i < 20; i++) {
-    card[i].classList.add(displayCards[i]);
+const renderDisplay = (array) => {
+    for(let i = 0; i < 10; i++) {
+    card[i].classList.add(array[i]);
     };
     timerFunction();
 };
 // 1. Init function - Randomize Cards (no overlap) - Memorization Timer Start. [init should end with render()]
 const randomizeCards = () => {
     let cards = pairs;
-    cards.forEach(() => {
+    for(let i = 0; i < 10; i++) {
         let randomIdx = Math.floor(Math.random() * cards.length);
         let draw = cards.splice(randomIdx, 1);
         displayCards.push(draw[0][0],draw[0][1]);
+        console.log(displayCards);
         draw = [];
-    });
+        i += 1;
+    };
     displayCards = displayCards.sort(()=> {
         return Math.random() - 0.5;
     });
