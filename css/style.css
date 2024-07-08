@@ -11,12 +11,29 @@ body {
     display: flex;
     flex-flow: column wrap;
     width: 50vw;
+    justify-content: center;
+    align-content: center;
+}
+
+#timer {
+    display: flex;
+    justify-content: center;
 }
 
 .card-display {
-    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .card {
-   width: 8vw;
+   display: flex;
+    width: 8vw;
+
 }

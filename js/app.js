@@ -1,17 +1,15 @@
 // Constants
-// 1. Array of Cards
-const cards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"];
+// 1. Card Pairs
+const pairs = [["dA","hA"],["sA","cA"],["dK","hK"],["sK","cK"],["dQ","hQ"],["sQ","cQ"],["dJ","hJ"],["sJ","cJ"],["d10","h10"],["s10","c10"],["d09","h09"],["s09","c09"],["d08","h08"],["s08","c08"],["d07","h07"],["s07","c07"],["d06","h06"],["s06","c06"],["d05","h05"],["s05","c05"],["d04","h04"],["s04","c04"],["d03","h03"],["s03","c03"],["d02","h02"],["s02","c02"]];
 // 2. Number of Attempts
-const attempts = 6;
+const attempts = 6; 
 // 3. Time Durations for Each Phase (Memorization and Matching)
 const memorization = 30;
 const matching = 60;
 
 // Variables
 // 1. Number of Cards on Display [Variable in initial according to stretch, but here according to number matched while the game is played.]
-let displayCards = 10;
-// 2. Randomized Card Pairs from Array [Need Randomization function to ensure no overlapping pairs]
-let cardPairs;
+let displayCards = [];
 // 3. Cards chosen by player (Card A and Card B)
 let cardA = '';
 let cardB = '';
@@ -39,10 +37,34 @@ const messageEl = document.querySelector("message-box");
 
 
 
-
 // Functions
-// 1. Init function - Start Button clicked - Randomize Cards (no overlap) - Memorization Timer Start. [init should end with render()]
 // 2. Primary Render - Renders randomized cards onto display - Renders Memorization Timer - Game and Phase Start/End Messages.
+const renderDisplay = (cardArray) => {
+    for(let i = 0; i < 20; i++) {
+    card[i].classList.add(displayCards[i]);
+    };
+    timerFunction();
+};
+// 1. Init function - Randomize Cards (no overlap) - Memorization Timer Start. [init should end with render()]
+const randomizeCards = () => {
+    let cards = pairs;
+    cards.forEach(() => {
+        let randomIdx = Math.floor(Math.random() * cards.length);
+        let draw = cards.splice(randomIdx, 1);
+        displayCards.push(draw[0][0],draw[0][1]);
+        draw = [];
+    });
+    displayCards = displayCards.sort(()=> {
+        return Math.random() - 0.5;
+    });
+};
+const init = () => {
+    displayCards = [];
+    randomizeCards();
+    renderDisplay(displayCards);
+};
+
+
 // 3. Phase Transition - Triggered by Memorization Timer Elapsing - Starts Matching Timer.
 // 4. Flip Render - Flips over cards when Matching Phase begins - Renders Matching Timer - Reacts to Cards Clicked and Flips/Unflips.
 // 5. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
@@ -54,7 +76,7 @@ const timerFunction = () => {
     let time = memorization;
     const timer = setInterval(() => {
         time--;
-        timerEl.innerHTML = time;
+        timerEl.innerHTML = `Time Remaining: ${time} seconds`;
         if (time === 0) {
             clearInterval(timer);
         };
@@ -64,6 +86,6 @@ const timerFunction = () => {
 
 // Event Listeners
 // 1. The Cards on display (For Each) to be clicked.
-card.addEventListener("click",placeholder);
+// card.addEventListener("click",placeholder);
 // 2. Start/Reset Button
 button.addEventListener("click",init);
