@@ -105,9 +105,42 @@ const renderTransition = (array) => {
     };
 };
 // 5. Handle Click - Reacts to Cards Clicked and Flips/Unflips; rendering them.
+const handleClick = () => {
+    if(cardA) {
+        if(cardB) {
 
+        } else {
+            cardB = event.target.id;
+            matchCheck(cardA,cardB);
+        };
+    cardA = event.target.id;
+    };
+    renderFlip();
+};
 
+const matchCheck = (cardA,cardB) => {
+    let check = [cardA, cardB];
+    if(pairs.includes(check)) {
+        updateScore();
+    };
+    updateAttempts();
+};
+
+const renderFlip = () => {
+    event.target.classList.remove('back');
+    event.target.classList.add(displayCards[event.target.id]);
+};
 // 6. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
+const updateScore = () => {
+    score += 1;
+    // render score
+    // wincon call
+};
+const updateAttempts = () => {
+    // attempt downtick
+    // render attempts
+    // losscon call
+};
 // 7. Game State - Win or Loss [Latter, by time or attempts].
 // 8. Reinitialization function - Reset Button clicked - go through Init again.
 
@@ -117,6 +150,8 @@ const renderTransition = (array) => {
 
 // Event Listeners
 // 1. The Cards on display (For Each) to be clicked.
-// card.addEventListener("click",placeholder);
+for (i = 0; i < card.length; i++) {
+card[i].addEventListener("click", handleClick);
+};
 // 2. Start/Reset Button
-button.addEventListener("click",init);
+button.addEventListener("click", init);
