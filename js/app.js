@@ -23,6 +23,9 @@
 // 6. Message Box (Announces game start, matched pair outcomes, score changes, attempt changes, phase changes, time out, and game outcome).
 
 
+// 3. Timer
+const timerEl = document.querySelector("#timer");
+
 // Event Listeners
 // 1. The Cards on display (For Each) to be clicked.
 // 2. Start/Reset Button
@@ -36,3 +39,15 @@
 // 5. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
 // 6. Game State - Win or Loss [Latter, by time or attempts].
 // 7. Reinitialization function - Reset Button clicked - go through Init again.
+
+// Timer Function:
+const timerFunction = () => {
+    let time = 30;
+    const timer = setInterval(() => {
+        time--;
+        timerEl.innerHTML = time;
+        if (time === 0) {
+            clearInterval(timer);
+        };
+    }, 1000);
+};
