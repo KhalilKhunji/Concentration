@@ -3,7 +3,7 @@
 const pairs = [["dA","hA"],["sA","cA"],["dK","hK"],["sK","cK"],["dQ","hQ"],["sQ","cQ"],["dJ","hJ"],["sJ","cJ"],["d10","h10"],["s10","c10"],["d09","h09"],["s09","c09"],["d08","h08"],["s08","c08"],["d07","h07"],["s07","c07"],["d06","h06"],["s06","c06"],["d05","h05"],["s05","c05"],["d04","h04"],["s04","c04"],["d03","h03"],["s03","c03"],["d02","h02"],["s02","c02"]];
 // 2. Number of Attempts
 const attempts = 6; 
-// 3. Time Durations for Each Phase (Memorization and Matching)
+// 3. Time Durations for Each Phase (Memorization and Matching) [CHANGE TO 30 AFTER TESTING]
 const memorization = 5;
 const matching = 60;
 
@@ -11,18 +11,17 @@ const matching = 60;
 // 1. Number of Cards on Display [Variable in initial according to stretch, but here according to number matched while the game is played.]
 let displayCards = [];
 // 3. Cards chosen by player (Card A and Card B)
-let cardA = '';
-let cardB = '';
+let cardA = [];
+let cardB = [];
 // 4. Player's Score.
 let score = 0;
-// 5. Current Game Phase (Memorization or Match)
+// 5. Current Game Phase (Memorization or Match) [MIGHT JUST REMOVE]
 let phase = 'memorization';
 // 6. Game Outcome/State (Win or Loss)
 let outcome = '';
 
-
 // Cached Elements
-// 1. The cards on display (For Each?), only rendered cards.
+// 1. The cards on display, only rendered cards.
 const card = document.querySelectorAll(".card");
 // 2. Start/Reset Button
 const button = document.querySelector("#button");
@@ -105,31 +104,41 @@ const renderTransition = (array) => {
     };
 };
 // 5. Handle Click - Reacts to Cards Clicked and Flips/Unflips; rendering them.
-const handleClick = () => {
-    if(cardA) {
-        if(cardB) {
-
-        } else {
-            cardB = event.target.id;
-            matchCheck(cardA,cardB);
-        };
-    cardA = event.target.id;
+const handleClick = (event) => {
+    if (cardA.length === 0) {
+        cardA.push(event.target);
+        renderFlip(cardA[0]);
+    } else if (cardB.length === 0) {
+        cardB = event.target;
+        renderFlip(cardB[0]);
+        matchCheck(cardA[0].id,cardB[0].id);
     };
-    renderFlip();
 };
 
-const matchCheck = (cardA,cardB) => {
-    let check = [cardA, cardB];
+const matchCheck = (first,second) => {
+    let check = [displayCards[first], displayCards[second]];
     if(pairs.includes(check)) {
         updateScore();
+        console.log('match!')
+    } else {
+        console.log('fail!');
+        renderFlip(cardA);
+        renderFlip(cardB);
+        // Make cardA and cardB emptys
     };
     updateAttempts();
 };
 
-const renderFlip = () => {
-    event.target.classList.remove('back');
-    event.target.classList.add(displayCards[event.target.id]);
+const renderFlip = (slot) => {
+    console.log(slot);
+    slot.classList.remove('back');
+    slot.classList.add(displayCards[slot.id]);
 };
+const renderUnflip = (slot) => {
+    slot.classList.remove(displayCards[slot.id]);
+    slot.classList.add('back');
+};
+
 // 6. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
 const updateScore = () => {
     score += 1;
