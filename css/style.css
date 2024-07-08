@@ -18,7 +18,7 @@ body {
 #timer {
     display: flex;
     justify-content: center;
-}
+    }
 
 .card-display {
     display: flex;

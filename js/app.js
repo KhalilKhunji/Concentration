@@ -4,7 +4,7 @@ const pairs = [["dA","hA"],["sA","cA"],["dK","hK"],["sK","cK"],["dQ","hQ"],["sQ"
 // 2. Number of Attempts
 const attempts = 6; 
 // 3. Time Durations for Each Phase (Memorization and Matching)
-const memorization = 30;
+const memorization = 5;
 const matching = 60;
 
 // Variables
@@ -64,31 +64,52 @@ const renderDisplay = (array) => {
     for(let i = 0; i < 10; i++) {
     card[i].classList.add(array[i]);
     };
-    timerFunction();
-    messageUpdate();
+    timerFunction(memorization);
+    messageUpdate(memorization);
 };
-const timerFunction = () => {
-    let time = memorization;
+const timerFunction = (phase) => {
+    let time = phase;
     const timer = setInterval(() => {
         time--;
-        timerEl.innerHTML = `<h2>Time Remaining: ${time} seconds</h2>`;
+        if (phase === memorization) {
+        timerEl.innerHTML = `<h2>Memorization Time Remaining: ${time} seconds</h2>`;
+        } else if (phase === matching) {
+        timerEl.innerHTML = `<h2>Matching Time Remaining: ${time} seconds</h2>`;
+        };
         if (time === 0) {
             phaseTransition();
             clearInterval(timer);
         };
     }, 1000);
 };
-const messageUpdate = () => {
-    messageEl.innerHTML += '<h2>You have 30 seconds to memorize!</h2>';
+const messageUpdate = (phase) => {
+    if(phase === memorization) {
+    messageEl.innerHTML = '';
+    messageEl.innerHTML += '<h2 id="mem-message">You have 30 seconds to memorize!</h2>';
+    } else if (phase === matching) {
+    messageEl.innerHTML = '';
+    messageEl.innerHTML += '<h2 id="mat-message">You have 60 seconds to match the cards!</h2>';
+    };
 };
 // 3. Phase Transition - Triggered by Memorization Timer Elapsing - Starts Matching Timer.
 const phaseTransition = () => {
-
+    timerFunction(matching);
+    renderTransition(displayCards);
+    messageUpdate(matching);
 };
 // 4. Flip Render - Flips over cards when Matching Phase begins - Renders Matching Timer - Reacts to Cards Clicked and Flips/Unflips.
-// 5. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
-// 6. Game State - Win or Loss [Latter, by time or attempts].
-// 7. Reinitialization function - Reset Button clicked - go through Init again.
+const renderTransition = (array) => {
+    for(let i = 0; i < 10; i++) {
+        card[i].classList.remove(array[i]);
+        card[i].classList.add('back');
+    };
+};
+// 5. Handle Click - Reacts to Cards Clicked and Flips/Unflips; rendering them.
+
+
+// 6. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
+// 7. Game State - Win or Loss [Latter, by time or attempts].
+// 8. Reinitialization function - Reset Button clicked - go through Init again.
 
 // Timer Function:
 
