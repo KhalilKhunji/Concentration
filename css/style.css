@@ -10,12 +10,13 @@ body {
 .top-panel {
     display: flex;
     flex-flow: column wrap;
+    width: 50vw;
 }
 
 .card-display {
-    
+    width: 90vw;
 }
 
 .card {
-   
+   width: 8vw;
 }
