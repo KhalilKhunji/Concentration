@@ -43,7 +43,19 @@ const messageEl = document.querySelector("#message-box");
 const init = () => {
     if(state === false) {
         state = true;
+        button.innerText = 'Reset Game';
         displayCards = [];
+        score = 0;
+        attempts = 6;
+        randomizeCards();
+        renderDisplay(displayCards);
+    } else if (state === true) {
+        timerFunction('end');
+        state = false;
+        clearRender(displayCards);
+        displayCards = [];
+        score = 0;
+        attempts = 6;
         randomizeCards();
         renderDisplay(displayCards);
     };
@@ -60,6 +72,7 @@ const randomizeCards = () => {
     displayCards = displayCards.sort(()=> {
         return Math.random() - 0.5;
     });
+    cards = [];
 };
 // 2. Primary Render - Renders randomized cards onto display - Renders Memorization Timer - Game and Phase Start/End Messages.
 const renderDisplay = (array) => {
@@ -73,16 +86,27 @@ const timerFunction = (phase) => {
     let time = phase;
     const timer = setInterval(() => {
         time--;
-        if (phase === memorization) {
+        if (phase === 'end') {
+            clearInterval(timer);
+            timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
+            scoreEl.innerHTML = '';
+            scoreEl.innerHTML = '<p>Player Score: 0/5</p>';
+            attemptEl.innerHTML = '';
+            attemptEl.innerHTML = '<p>Attempts Remaining: 6/6</p>';
+        } else if (phase === memorization) {
             timerEl.innerHTML = `<h2>Memorization Time Remaining: ${time} seconds</h2>`;
             if (time === 0) {
                 phaseTransition();
                 clearInterval(timer);
+            } else if (state === false) {
+                clearInterval(timer);
             };
         } else if (phase === matching) {
-        timerEl.innerHTML = `<h2>Matching Time Remaining: ${time} seconds</h2>`;
+            timerEl.innerHTML = `<h2>Matching Time Remaining: ${time} seconds</h2>`;
             if (time === 0) {
                 checkOutcome('loss');
+                clearInterval(timer);
+            } else if (state === false) {
                 clearInterval(timer);
             };
         };
@@ -185,11 +209,17 @@ const checkOutcome = (outcome) => {
         messageEl.innerHTML = '';
         messageEl.innerHTML += '<h1>YOU LOSE!</h1>';
     };
+    timerFunction('end');
     state = false;
-    timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
+    clearRender(displayCards);
 };
 // 8. Reinitialization function - Reset Button clicked - go through Init again.
-
+const clearRender = (array) => {
+    for(let i = 0; i < 10; i++) {
+        card[i].classList.remove(array[i]);
+        card[i].classList.remove('back');
+    };
+};
 
 
 // Event Listeners
