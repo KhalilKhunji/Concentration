@@ -3,8 +3,8 @@
 const pairs = [["dA","hA"],["sA","cA"],["dK","hK"],["sK","cK"],["dQ","hQ"],["sQ","cQ"],["dJ","hJ"],["sJ","cJ"],["d10","h10"],["s10","c10"],["d09","h09"],["s09","c09"],["d08","h08"],["s08","c08"],["d07","h07"],["s07","c07"],["d06","h06"],["s06","c06"],["d05","h05"],["s05","c05"],["d04","h04"],["s04","c04"],["d03","h03"],["s03","c03"],["d02","h02"],["s02","c02"]];
 // 2. Number of Attempts
 // 3. Time Durations for Each Phase (Memorization and Matching) [CHANGE TO 30 AFTER TESTING]
-const memorization = 5;
-const matching = 60;
+const memorization = 10;
+const matching = 30;
 
 // Variables
 // 1. Number of Cards on Display [Variable in initial according to stretch, but here according to number matched while the game is played.]
@@ -43,7 +43,7 @@ const messageEl = document.querySelector("#message-box");
 const init = () => {
     if(state === false) {
         state = true;
-        timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
+        timerEl.innerHTML = `<h2>Memorization Time Remaining: 10 seconds</h2>`;
         scoreEl.innerHTML = '';
         scoreEl.innerHTML = '<p>Player Score: 0/5</p>';
         attemptEl.innerHTML = '';
@@ -106,10 +106,10 @@ const timerFunction = (phase) => {
 const messageUpdate = (phase) => {
     if(phase === memorization) {
     messageEl.innerHTML = '';
-    messageEl.innerHTML += '<h2 id="mem-message">You have 30 seconds to memorize!</h2>';
+    messageEl.innerHTML += '<h2 id="mem-message">You have 10 seconds to memorize!</h2>';
     } else if (phase === matching) {
     messageEl.innerHTML = '';
-    messageEl.innerHTML += '<h2 id="mat-message">You have 60 seconds to match the cards!</h2>';
+    messageEl.innerHTML += '<h2 id="mat-message">You have 30 seconds to match the cards!</h2>';
     };
 };
 // 3. Phase Transition - Triggered by Memorization Timer Elapsing - Starts Matching Timer.
