@@ -43,19 +43,15 @@ const messageEl = document.querySelector("#message-box");
 const init = () => {
     if(state === false) {
         state = true;
+        timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
+        scoreEl.innerHTML = '';
+        scoreEl.innerHTML = '<p>Player Score: 0/5</p>';
+        attemptEl.innerHTML = '';
+        attemptEl.innerHTML = '<p>Attempts Remaining: 6/6</p>';
+        score = 0;
+        attempts = 6;
         button.innerText = 'Reset Game';
         displayCards = [];
-        score = 0;
-        attempts = 6;
-        randomizeCards();
-        renderDisplay(displayCards);
-    } else if (state === true) {
-        timerFunction('end');
-        state = false;
-        clearRender(displayCards);
-        displayCards = [];
-        score = 0;
-        attempts = 6;
         randomizeCards();
         renderDisplay(displayCards);
     };
@@ -82,18 +78,12 @@ const renderDisplay = (array) => {
     timerFunction(memorization);
     messageUpdate(memorization);
 };
+
 const timerFunction = (phase) => {
     let time = phase;
     const timer = setInterval(() => {
         time--;
-        if (phase === 'end') {
-            clearInterval(timer);
-            timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
-            scoreEl.innerHTML = '';
-            scoreEl.innerHTML = '<p>Player Score: 0/5</p>';
-            attemptEl.innerHTML = '';
-            attemptEl.innerHTML = '<p>Attempts Remaining: 6/6</p>';
-        } else if (phase === memorization) {
+        if (phase === memorization) {
             timerEl.innerHTML = `<h2>Memorization Time Remaining: ${time} seconds</h2>`;
             if (time === 0) {
                 phaseTransition();
@@ -112,6 +102,7 @@ const timerFunction = (phase) => {
         };
     }, 1000);
 };
+
 const messageUpdate = (phase) => {
     if(phase === memorization) {
     messageEl.innerHTML = '';
@@ -209,7 +200,6 @@ const checkOutcome = (outcome) => {
         messageEl.innerHTML = '';
         messageEl.innerHTML += '<h1>YOU LOSE!</h1>';
     };
-    timerFunction('end');
     state = false;
     clearRender(displayCards);
 };
