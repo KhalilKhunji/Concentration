@@ -2,7 +2,6 @@
 // 1. Card Pairs
 const pairs = [["dA","hA"],["sA","cA"],["dK","hK"],["sK","cK"],["dQ","hQ"],["sQ","cQ"],["dJ","hJ"],["sJ","cJ"],["d10","h10"],["s10","c10"],["d09","h09"],["s09","c09"],["d08","h08"],["s08","c08"],["d07","h07"],["s07","c07"],["d06","h06"],["s06","c06"],["d05","h05"],["s05","c05"],["d04","h04"],["s04","c04"],["d03","h03"],["s03","c03"],["d02","h02"],["s02","c02"]];
 // 2. Number of Attempts
-const attempts = 6; 
 // 3. Time Durations for Each Phase (Memorization and Matching) [CHANGE TO 30 AFTER TESTING]
 const memorization = 5;
 const matching = 60;
@@ -10,11 +9,15 @@ const matching = 60;
 // Variables
 // 1. Number of Cards on Display [Variable in initial according to stretch, but here according to number matched while the game is played.]
 let displayCards = [];
+// 2. Number of matches:
+let match = 0;
 // 3. Cards chosen by player (Card A and Card B)
 let cardA = [];
 let cardB = [];
 // 4. Player's Score.
 let score = 0;
+// 4.5. Attempts Remaining:
+let attempts = 6; 
 // 5. Current Game Phase (Memorization or Match) [MIGHT JUST REMOVE]
 let phase = 'memorization';
 // 6. Game Outcome/State (Win or Loss)
@@ -45,12 +48,11 @@ const init = () => {
     renderDisplay(displayCards);
 };
 const randomizeCards = () => {
-    let cards = pairs;
+    let cards = [...pairs];
     for(let i = 0; i < 10; i++) {
         let randomIdx = Math.floor(Math.random() * cards.length);
         let draw = cards.splice(randomIdx, 1);
         displayCards.push(draw[0][0],draw[0][1]);
-        console.log(displayCards);
         draw = [];
         i += 1;
     };
@@ -109,28 +111,37 @@ const handleClick = (event) => {
         cardA.push(event.target);
         renderFlip(cardA[0]);
     } else if (cardB.length === 0) {
-        cardB = event.target;
+        cardB.push(event.target);
         renderFlip(cardB[0]);
-        matchCheck(cardA[0].id,cardB[0].id);
+        setTimeout(() => {
+            matchCheck(cardA[0].id,cardB[0].id);
+        },500);
     };
 };
 
 const matchCheck = (first,second) => {
-    let check = [displayCards[first], displayCards[second]];
-    if(pairs.includes(check)) {
+    match = 0;
+    pairs.forEach((pair) => {
+        if(pair.includes(displayCards[first],displayCards[second])||pair.includes(displayCards[second],displayCards[first])){
+            match += 1;
+        };
+    });
+    if(match === 1) {
         updateScore();
-        console.log('match!')
+        cardA.pop();
+        cardB.pop();
     } else {
-        console.log('fail!');
-        renderFlip(cardA);
-        renderFlip(cardB);
-        // Make cardA and cardB emptys
+        messageEl.innerHTML = '';
+        messageEl.innerHTML += '<h2>Wrong Match!</h2>';
+        renderUnflip(cardA[0])
+        renderUnflip(cardB[0])
+        cardA.pop();
+        cardB.pop();
     };
     updateAttempts();
 };
 
 const renderFlip = (slot) => {
-    console.log(slot);
     slot.classList.remove('back');
     slot.classList.add(displayCards[slot.id]);
 };
@@ -142,18 +153,18 @@ const renderUnflip = (slot) => {
 // 6. Score/Attempt Tracking & Render - Updates Score and Attempts as game progresses.
 const updateScore = () => {
     score += 1;
-    // render score
+    scoreEl.innerHTML = '';
+    scoreEl.innerHTML += `<p>Player Score: ${score}/5</p>`;
     // wincon call
 };
 const updateAttempts = () => {
-    // attempt downtick
-    // render attempts
+    attempts -= 1;
+    attemptEl.innerHTML = '';
+    attemptEl.innerHTML = `<p>Attempts Remaining: ${attempts}/6</p>`;
     // losscon call
 };
 // 7. Game State - Win or Loss [Latter, by time or attempts].
 // 8. Reinitialization function - Reset Button clicked - go through Init again.
-
-// Timer Function:
 
 
 
