@@ -16,12 +16,10 @@ let cardA = [];
 let cardB = [];
 // 4. Player's Score.
 let score = 0;
-// 4.5. Attempts Remaining:
+// 5. Attempts Remaining:
 let attempts = 6; 
-// 5. Current Game Phase (Memorization or Match) [MIGHT JUST REMOVE]
-let phase = 'memorization';
-// 6. Game Outcome/State (Win or Loss)
-let outcome = '';
+// 7. Game State
+let state = false;
 
 // Cached Elements
 // 1. The cards on display, only rendered cards.
@@ -43,9 +41,12 @@ const messageEl = document.querySelector("#message-box");
 
 // 1. Init function - Randomize Cards (no overlap) - Memorization Timer Start. [init should end with render()]
 const init = () => {
-    displayCards = [];
-    randomizeCards();
-    renderDisplay(displayCards);
+    if(state === false) {
+        state = true;
+        displayCards = [];
+        randomizeCards();
+        renderDisplay(displayCards);
+    };
 };
 const randomizeCards = () => {
     let cards = [...pairs];
@@ -73,13 +74,17 @@ const timerFunction = (phase) => {
     const timer = setInterval(() => {
         time--;
         if (phase === memorization) {
-        timerEl.innerHTML = `<h2>Memorization Time Remaining: ${time} seconds</h2>`;
+            timerEl.innerHTML = `<h2>Memorization Time Remaining: ${time} seconds</h2>`;
+            if (time === 0) {
+                phaseTransition();
+                clearInterval(timer);
+            };
         } else if (phase === matching) {
         timerEl.innerHTML = `<h2>Matching Time Remaining: ${time} seconds</h2>`;
-        };
-        if (time === 0) {
-            phaseTransition();
-            clearInterval(timer);
+            if (time === 0) {
+                checkOutcome('loss');
+                clearInterval(timer);
+            };
         };
     }, 1000);
 };
@@ -107,15 +112,19 @@ const renderTransition = (array) => {
 };
 // 5. Handle Click - Reacts to Cards Clicked and Flips/Unflips; rendering them.
 const handleClick = (event) => {
-    if (cardA.length === 0) {
-        cardA.push(event.target);
-        renderFlip(cardA[0]);
-    } else if (cardB.length === 0) {
-        cardB.push(event.target);
-        renderFlip(cardB[0]);
-        setTimeout(() => {
-            matchCheck(cardA[0].id,cardB[0].id);
-        },500);
+    if (state === true) {
+        if(event.target.classList.contains('back')) {
+            if (cardA.length === 0) {
+                cardA.push(event.target);
+                renderFlip(cardA[0]);
+            } else if (cardB.length === 0) {
+                cardB.push(event.target);
+                renderFlip(cardB[0]);
+                setTimeout(() => {
+                    matchCheck(cardA[0].id,cardB[0].id);
+                },500);
+            };
+        };
     };
 };
 
@@ -133,8 +142,8 @@ const matchCheck = (first,second) => {
     } else {
         messageEl.innerHTML = '';
         messageEl.innerHTML += '<h2>Wrong Match!</h2>';
-        renderUnflip(cardA[0])
-        renderUnflip(cardB[0])
+        renderUnflip(cardA[0]);
+        renderUnflip(cardB[0]);
         cardA.pop();
         cardB.pop();
     };
@@ -155,15 +164,30 @@ const updateScore = () => {
     score += 1;
     scoreEl.innerHTML = '';
     scoreEl.innerHTML += `<p>Player Score: ${score}/5</p>`;
-    // wincon call
+    if(score === 5) {
+        return checkOutcome('win');
+    };
 };
 const updateAttempts = () => {
     attempts -= 1;
     attemptEl.innerHTML = '';
     attemptEl.innerHTML = `<p>Attempts Remaining: ${attempts}/6</p>`;
-    // losscon call
+    if(score !== 5 && attempts === 0) {
+        return checkOutcome('loss');
+    };
 };
 // 7. Game State - Win or Loss [Latter, by time or attempts].
+const checkOutcome = (outcome) => {
+    if(outcome === 'win') {
+        messageEl.innerHTML = '';
+        messageEl.innerHTML += '<h1>YOU WIN!</h1>';
+    } else if (outcome === 'loss') {
+        messageEl.innerHTML = '';
+        messageEl.innerHTML += '<h1>YOU LOSE!</h1>';
+    };
+    state = false;
+    timerEl.innerHTML = `<h2>Memorization Time Remaining: 30 seconds</h2>`;
+};
 // 8. Reinitialization function - Reset Button clicked - go through Init again.
 
 
