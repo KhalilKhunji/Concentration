@@ -152,6 +152,8 @@ const matchCheck = (first,second) => {
     });
     if(match === 1) {
         updateScore();
+        messageEl.innerHTML = '';
+        messageEl.innerHTML += '<h2>Correct Match!</h2>';
         cardA.pop();
         cardB.pop();
     } else {
@@ -195,10 +197,10 @@ const updateAttempts = () => {
 const checkOutcome = (outcome) => {
     if(outcome === 'win') {
         messageEl.innerHTML = '';
-        messageEl.innerHTML += '<h1>YOU WIN!</h1>';
+        messageEl.innerHTML += '<h2>YOU WIN!</h2>';
     } else if (outcome === 'loss') {
         messageEl.innerHTML = '';
-        messageEl.innerHTML += '<h1>YOU LOSE!</h1>';
+        messageEl.innerHTML += '<h2>YOU LOSE!</h2>';
     };
     state = false;
     clearRender(displayCards);

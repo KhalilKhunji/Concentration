@@ -5,34 +5,78 @@
 body {
     width: 100vw;
     height: 100vh;
+    background-color: #35654d;
+    color: white;
 }
 
 .top-panel {
     display: flex;
     flex-flow: column wrap;
-    width: 50vw;
-    justify-content: center;
-    align-content: center;
+    align-items: center;
 }
 
-#timer {
+#header {
+    text-align: center;
+}
+
+#instructions {
+
+}
+
+.button {
     display: flex;
     justify-content: center;
-    }
+    align-items: center;
+}
+
+#button {
+    background-color: #ee0000ef;
+    border: none;
+    margin: auto;
+    padding: auto;
+    color: white;
+    font-size: 1em;
+}
+
+#button:hover {
+    cursor: pointer;
+}
+
+#score {
+
+}
+
+#score p {
+    margin: 2vh;
+    padding: 1vh;
+    border: white solid 0.2em;
+    border-radius: 1em;
+}
+
+#attempts p {
+    margin: 0.5vh auto 0.5vh;
+    padding: 1vh;
+    border: white solid 0.2em;
+    border-radius: 1em;
+}
+
+#message-box h2 {
+    margin: 3vh auto 2vh;
+}
+
+#timer h2 {
+    margin: 1vh auto 3vh;
+}
 
 .card-display {
     display: flex;
-    flex-direction: row;
     justify-content: center;
 }
 
 #row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+
 }
 
 .card {
-   display: flex;
-    width: 5vw;
+
 }

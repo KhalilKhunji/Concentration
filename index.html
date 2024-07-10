@@ -11,7 +11,7 @@
 <body>
     <section class="top-panel">
         <div id="instructions">
-            <h1>Concentration</h1>
+            <h1 id="header">Concentration</h1>
             <p>Concentration is a memory-based card game in which you match pairs of the same rank and color.
                 <br>
                 You have a limited number of attempts to match them correctly.
@@ -20,7 +20,7 @@
                 <br>
                 Press Start Game to begin. Good luck!
             </p>
-            <div id="message-box"></div>
+            <div class="button"><button id="button">Start Game</button></div>
         </div>
         <div id="score">
             <p>Player Score: 0/5</p>
@@ -28,12 +28,9 @@
         <div id="attempts">
             <p>Attempts Remaining: 6/6</p>
         </div>
-        <br>
-        <div class="button"><button id="button">Start Game</button></div>
-        <br>
+        <div id="message-box"><h2 id="mem-message">You have 10 seconds to memorize!</h2></div>
         <div id="timer"><h2>Memorization Time Remaining: 10 seconds</h2></div>
     </section>
-    <br>
     <section class="card-display">
         <div id="row">
             <div class="card" id="0"></div>
