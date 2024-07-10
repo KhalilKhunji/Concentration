@@ -13,7 +13,6 @@ All instructions on how to play the game are contained therein; but note that yo
 Here's the initial [plan](https://github.com/KhalilKhunji/concentration/blob/main/PLAN.md) if interested.
 
 # Attributions
-* Logo courtesy of Maryam Ali.
 * Card assets (mostly CSS, with some Javascript) taken from General Assembly [card game starter](https://github.com/SEB-10-Bahrain/card-game-starter).
 
 # Technologies Used
