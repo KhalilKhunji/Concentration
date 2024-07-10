@@ -1,5 +1,4 @@
-![Concentration Card Game Logo](./images/logo/9.png)
-
+![Concentration Game Logo](./images/logo/Concentration%20logo.png)
 # Concentration
 [Concentration](https://en.wikipedia.org/wiki/Concentration_(card_game)) is a type of card-based memory game. All card aficianados (myself included) have played some variant of this at one time or another; and this particular variant is a simplified version of the classic 52-card game, taking 10 cards (5 pairs) for simplicity's sake. 
 
